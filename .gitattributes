@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+windows/** linguist-documentation
+linux/** linguist-documentation
+macos/** linguist-documentation
