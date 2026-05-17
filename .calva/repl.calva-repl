@@ -1,0 +1,1085 @@
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+clj꞉user꞉> 
+(defn main []
+  (f/run
+   (m/MaterialApp
+    .title "Welcome to Flutter"
+    .theme (m/ThemeData .primarySwatch m.Colors/pink))
+   .home
+   (m/Scaffold
+    .appBar (m/AppBar
+             .title (m/Text "Welcome to ClojureDart")))
+   .body
+   m/Center
+   (m/Text "Let's get coding!"
+           .style (m/TextStyle
+                   .color m.Colors/red
+                   .fontSize 32.0))))
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+(defn main []
+  (f/run
+   (m/MaterialApp
+    .title "Welcome to Flutter"
+    .theme (m/ThemeData .primarySwatch m.Colors/pink))
+   .home
+   (m/Scaffold
+    .appBar (m/AppBar
+             .title (m/Text "alo")))
+   .body
+   m/Center
+   (m/Text "Let's get coding!"
+           .style (m/TextStyle
+                   .color m.Colors/red
+                   .fontSize 32.0))))
+clj꞉acme.main꞉> 
+(defn main []
+  (f/run
+   (m/MaterialApp
+    .title "Welcome to Flutter"
+    .theme (m/ThemeData .primarySwatch m.Colors/pink))
+   .home
+   (m/Scaffold
+    .appBar (m/AppBar
+             .title (m/Text "Welcome to ClojureDart")))
+   .body
+   m/Center
+   (m/Text "Let's get coding!"
+           .style (m/TextStyle
+                   .color m.Colors/red
+                   .fontSize 32.0))))
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+(defn main []
+  (f/run
+   (m/MaterialApp
+    .home
+    (m/Scaffold
+     .appBar (m/AppBar .title (m/Text "Onitama Lab"))
+     .body
+     (f/widget
+      :with [state (f/atom 0) ;; Створюємо локальний "атом" (стан)
+             (m/Center
+              .child
+              (m/Column ;; Колонка, щоб покласти текст НАД кнопкою
+               .mainAxisAlignment m.MainAxisAlignment/center
+               .children
+               [(m/Text (str "Кліків: " @state)
+                        .style (m/TextStyle .fontSize 24.0))
+
+                (m/SizedBox .height 20.0) ;; Просто відступ
+
+                (m/ElevatedButton
+                 .onPressed (fn [] (swap! state inc)) ;; ФУНКЦІЯ!
+                 .child (m/Text "Натисни мене!"))]))])))))
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.mainw꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+(def battlefield
+  [[:player2 :player2 :player2 :opportunity :player2]
+   [:opportunity :player2 :opportunity :opportunity :opportunity]
+   [:opportunity :opportunity :player1 :opportunity :opportunity]
+   [:opportunity :opportunity :opportunity :player1 :opportunity]
+   [:player1 :player1 :player1 :opportunity :opportunity]])
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+clj꞉undefined꞉> 
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+clj꞉user꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+(paint-button? true)
+clj꞉acme.main꞉> 
+(paint-button? true)
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+(paint-button? true)
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+(paint-button? true)
+clj꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class clojure.lang.Compiler$CompilerException
+clj꞉acme.main꞉> 
+(paint-button? true)
+clj꞉acme.main꞉> 
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+clj꞉user꞉> 
+(paint-button? true)
+clj꞉acme.main꞉> 
+(paint-button? true)
+clj꞉acme.main꞉> 
+(paint-button? false)
+clj꞉logic꞉> 
+clj꞉undefined꞉> 
+clj꞉undefined꞉> 
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+bb꞉user꞉> 
+(reset! selected-card "bear")
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: selected-card user h:\games\clojure\ontiama_2.0\src\acme\main.cljd:1:1
+bb꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+(reset! selected-card "bear")
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: selected-card user h:\games\clojure\ontiama_2.0\src\acme\main.cljd:1:1
+bb꞉acme.main꞉> 
+(def selected-card (atom nil))
+bb꞉acme.main꞉> 
+(reset! selected-card "bear")
+bb꞉acme.main꞉> 
+(handle-tile-press server-path selected-card move-to-tiles [2 2])
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: handle-tile-press user h:\games\clojure\ontiama_2.0\src\acme\main.cljd:1:1
+bb꞉acme.main꞉> 
+(defn handle-tile-press [server-path selected-card  move-to-tiles [x y]]
+  (let [url (dc/Uri.parse (str server-path "/moves?card=" @selected-card "&x=" x "&y=" y))]
+    (println "query: " url)
+    (reset! selected-tile [x y])
+    (-> (http/get url)
+        (.then (fn [^http/Response res] ;; тип ^http/Response
+                 (reset! move-to-tiles (.-body res))
+                 (println "server response " @move-to-tiles)))
+        (.catchError (fn [e]
+                       (println "network error" e))))
+    nil))
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: dc/Uri.parse user h:\games\clojure\ontiama_2.0\src\acme\main.cljd:2:13
+bb꞉acme.main꞉> 
+(ns acme.main
+  (:require ["package:flutter/material.dart" :as m]
+            ["package:http/http.dart" :as http]
+            ["dart:core" :as dc]
+            [cljd.flutter :as f]
+            [clojure.edn :as edn]))
+; java.io.FileNotFoundException: Could not locate package:flutter/material/dart.bb, package:flutter/material/dart.clj or package:flutter/material/dart.cljc on classpath. user h:\games\clojure\ontiama_2.0\src\acme\main.cljd:2:3
+bb꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+clj꞉undefined꞉> 
+clj꞉undefined꞉> 
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+bb꞉user꞉> 
+(comment (-> state
+             :cards
+             :player1
+             (disj :tiger)
+             (conj :dragon)))
+bb꞉logic꞉> 
+(ns logic)
+
+(def card-moves (read-string (slurp "cards.edn")))
+(def battlefield
+  [[:player2 :player2 :player2 :opportunity :player2]
+   [:opportunity :player2 :opportunity :opportunity :opportunity]
+   [:opportunity :opportunity :player1 :opportunity :opportunity]
+   [:opportunity :opportunity :opportunity :player1 :opportunity]
+   [:player1 :player1 :player1 :opportunity :opportunity]])
+
+(def win-pos {:player1 [2 0] :player2 [2 4]})
+
+(def state {:field battlefield
+            :player :player1
+            :kings {:player1 [2 4] :player2 [2 0]}
+            :cards {:player1 #{:tiger :otter}
+                    :player2 #{:bear :tanuki}
+                    :neutral :dragon}})
+(def selected-tile [2 2])
+
+(defn game-over? [state] ;; returns the winner if gamestate tells the game is over, nil otherwise
+  (let [king1 ((state :kings) :player1)
+        king2 ((state :kings) :player2)
+        king-alive? (fn [king player] (= (-> state
+                                             :field
+                                             (get-in [(second king) (first king)])) player))
+        king1-alive? (king-alive? king1 :player1)
+        king2-alive? (king-alive? king2 :player2)
+        king1-won? (= (win-pos :player1) king1)
+        king2-won? (= (win-pos :player2) king2)]
+    (cond (or (not king2-alive?) king1-won?) :player1
+          (or (not king1-alive?) king2-won?) :player2
+          :else nil)))
+
+(defn reverse-battlefield [battlefield]
+  (vector (map (partial replace {:player1 :player2 :player2 :player1}) (map rseq (rseq battlefield)))))
+
+(defn possible-moves ([state card position player]
+                      (let [[x y] position
+                            battlefield (state :field)
+                            moves (card card-moves)
+                            selected-piece (get-in battlefield [y x])
+                            operator (if (= selected-piece player) + -)
+                            result (map (fn [[dx dy]] [(operator x dx) (operator y dy)]) moves)]
+                        (when operator
+                          (filter #(and (<= 0 (first %) 4)
+                                        (<= 0 (second %) 4)
+                                        (not= selected-piece (get-in battlefield [(second %) (first %)])))
+                                  result))))
+  ([state card [x y]]
+   (possible-moves state card [x y] (get-in battlefield [y x]))))
+
+
+
+(comment battlefield)
+(comment (possible-moves state (second (:player2 (:cards state))) [2 0] :player1))
+
+(defn battlefield-change [battlefield [x-from y-from] [x-to y-to] player]
+  (assoc-in (assoc-in battlefield [y-from x-from] :opportunity) [y-to x-to] player))
+
+(defn other-player [player] (if (= :player1 player)  :player2 :player1))
+
+(defn valid-move? [state player card piece move-to]
+  (let [battlefield (:field state)
+        [x y] piece]
+    ;;(println "player = piece? " (= player (get-in battlefield [y x])))
+    ;;(println "card = yes? " (= player (get-in battlefield [y x])))
+    ;;(println "move = possible? " (= player (get-in battlefield [y x])))
+    (and (= player (get-in battlefield [y x]))                     ;; Це фігура гравця?
+         (contains? (get-in state [:cards player]) card)           ;; Карта є в руці?
+         (contains? (set (possible-moves state card piece)) move-to))))
+
+(defn apply-move [state player card piece move-to]
+  (let [card-neutral (:neutral state)
+        king ((state :kings) player)
+        king? (= king piece)
+        new-king (if king? move-to king)]
+    (-> state
+        (update-in [:field] #(battlefield-change % piece move-to player))
+        (update-in [:cards player] #(-> % (disj card)
+                                        (conj card-neutral)))
+        (assoc-in [:kings player] new-king)
+        (assoc-in [:cards :neutral] card))))
+
+(defn action-move [state player card-played piece move-to]
+  (if (valid-move? state player card-played piece move-to)
+    (apply-move state player card-played piece move-to)
+    state))
+
+(comment (-> state
+             :cards
+             :player1
+             (disj :tiger)
+             (conj :dragon)))
+(comment ((set (:player1 (:cards state))) :tiger))
+
+(map (partial replace {0 1 1 0}) [[1 0] [1 0]])
+
+(comment battlefield)
+(comment (action-move (:neutral (:cards state)) (first (:player1 (:cards state))) [2 0] [2 2] battlefield))
+
+
+(map + [1 2 3] (iterate (partial + 0) 5))
+
+;; [[1 1]  [2 0]  [-1 -1]]
+;; [[1 2 -1]  [1 0 -1]]
+;; map (+ 5) [1 2 3]
+
+(iterate inc 1)
+(iterate (partial + 0) 5)
+
+(defn f [x] (* x x))
+(comment (apply < (take 1000 (map f (iterate (partial + 1/100) -1)))))
+(f -1/2)
+bb꞉logic꞉> 
+(comment (-> state
+             :cards
+             :player1
+             (disj :tiger)
+             (conj :dragon)))
+bb꞉logic꞉> 
+(def state {:field battlefield
+            :player :player1
+            :kings {:player1 [2 4] :player2 [2 0]}
+            :cards {:player1 #{:tiger :otter}
+                    :player2 #{:bear :tanuki}
+                    :neutral :dragon}})
+bb꞉logic꞉> 
+(action-move state :player1 :tiger [2 2] [2 0])
+bb꞉logic꞉> 
+(action-move state :player1 :tiger [2 2] [2 0])
+bb꞉logic꞉> 
+(-> state
+             :cards
+             :player1
+             (disj :tiger)
+             (conj :dragon))
+bb꞉logic꞉> 
+(action-move state :player1 :tiger [2 2] [2 0])
+bb꞉logic꞉> 
+(action-move state :player1 :tiger [2 2] [2 0])
+bb꞉logic꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+clj꞉undefined꞉> 
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+bb꞉user꞉> 
+(println @state)
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: state user h:\games\clojure\ontiama_2.0\src\acme\server.clj:1:10
+bb꞉server꞉> 
+;;    (ns server
+;;      (:require [org.httpkit.server :as http])
+;;      (:require [logic :as logic])
+;;      (:require [clojure.string :as str]))
+;;    
+;;    
+;;    
+;;    (defn parse-query [query-string]
+;;      (if (str/blank? query-string)
+;;        {}
+;;        (->> (str/split query-string #"&")
+;;             (map #(str/split % #"="))
+;;             (into {} (map (fn [[k v]] [(keyword k) v]))))))
+;;    
+;;    ;; Це твій головний обробник (Handler).
+;;    ;; Він приймає запит (req) і повертає мапу з відповіддю.
+;;    (defn app [req]
+;;      (let [method (:request-method req)
+;;            path (:uri req)
+;;            params (parse-query (:query-string req))]
+;;        ;; Твій сервер надрукує в термінал всю мапу запиту
+;;        (println "--- НОВИЙ ЗАПИТ ---")
+;;        (println "Метод:" method)
+;;        (println "Шлях:" path)
+;;        (cond (and (= path "/state") (= method :get))
+;;              (do (println "state 1")
+;;                  ;; А це те, що піде назад клієнту
+;;                  {:status 200
+;;                   :headers {"Content-Type" "text/plain; charset=utf-8"}
+;;                   :body (pr-str logic/state)})
+;;              (and (= path "/moves") (= method :get))
+;;              (do (println "moves 2")
+;;                  (let [card (keyword (get params :card))
+;;                        x (Integer/parseInt (get params :x))
+;;                        y (Integer/parseInt (get params :y))]
+;;                    (println card [x y])
+;;                    {:status 200
+;;                     :body (pr-str (logic/possible-moves card [x y] (:field logic/state)))}))
+;;              :else {:status 200
+;;                     :headers {"Content-Type" "text/plain; charset=utf-8"}
+;;                     :body "нічого не просять - нічого не невиконано"})))
+;;    
+;;    ;; Функція запуску сервера
+;;    (defonce server (atom nil))
+;;    
+;;    (defn stop-server []
+;;      (when-not (nil? @server)
+;;        (@server :timeout 100)
+;;        (reset! server nil)))
+;;    
+;;    (defn start-server []
+;;      (stop-server) ;; Зупиняємо старий, якщо він був
+;;      (reset! server (http/run-server app {:port 8080})))
+;;    
+;;    ;; Запускаємо, тільки якщо ми в REPL
+;;    (start-server)
+
+
+
+
+
+
+
+
+
+
+;; 67 67 67 67 67 67 67 67 67 67 67 67 67 67 
+ (ns server
+   (:require [org.httpkit.server :as http])
+   (:require [logic :as logic])
+   (:require [clojure.edn :refer [read-string]])
+   (:require [clojure.string :as str]))
+
+(defonce state (atom nil))
+
+(def mock-req-moves
+  {:uri "/moves"
+   :request-method :get
+   :query-string "card=tiger&x=2&y=2"})
+
+(def mock-req-action-move
+  (-> mock-req-moves
+      (assoc :query-string "card=tiger&x-from=2&y-from=2&x-to=2&y-to=0")
+      (assoc :request-method :post)
+      (assoc :uri "/action-move")))
+
+(def player :player1)
+
+(reset! state logic/state)
+;; @state
+
+
+(defn parse-query [query-string]
+  (if (str/blank? query-string)
+    {}
+    (->> (str/split query-string #"&")
+         (map #(str/split % #"="))
+         (into {} (map (fn [[k v]] [(keyword k) v]))))))
+
+(defn coordinates [vec x y]
+  [(Integer/parseInt (x vec))
+   (Integer/parseInt (y vec))])
+
+(comment (parse-query "x=2&y=2&card="))
+(comment (coordinates (parse-query "x=2&y=2&card=") :x :y))
+
+(defn look-moves [state params]
+  (let [params-set (parse-query params)
+        [x y] (coordinates params-set :x :y)
+        card (keyword (:card params-set))
+        moves (logic/possible-moves state card [x y])]
+    (println moves)
+    {:status  200
+     :headers {"Content-Type" "text/html"}
+     :body    (pr-str moves)}))
+
+(println @state)
+
+(defn make-move [state params player]
+  (let [params-set (parse-query params)
+        [x-from y-from] (coordinates params-set :x-from :y-from)
+        [x-to y-to] (coordinates params-set :x-to :y-to)
+        card (keyword (:card params-set))
+        new-state (logic/action-move state player card [x-from y-from] [x-to y-to])]
+    (println new-state)
+    new-state))
+
+(defn app [req]
+  (let [method (:request-method req)
+        params (:query-string req)
+        path (:uri req)]
+    (println req)
+    ;; (reset! state logic/state)
+    (cond (and (= path "/moves") (= method :get))
+          (look-moves @state params)
+          (and (= path "/action-move") (= method :post))
+          (let [new-state (make-move @state params player)
+                winner (logic/game-over? new-state)]
+            (reset! state new-state)
+            {:status  200
+             :headers {"Content-Type" "text/html"}
+             :body    new-state})
+          :else
+          {:status  404
+           :headers {"Content-Type" "text/html"}
+           :body    "ойойой!"})))
+
+
+(comment (app mock-req-moves))
+(comment (app mock-req-action-move))
+
+(defonce server (atom nil))
+
+(defn stop-server []
+  (when-not (nil? @server)
+    ;; graceful shutdown: wait 100ms for existing requests to be finished
+    ;; :timeout is optional, when no timeout, stop immediately
+    (@server :timeout 100)
+    (reset! server nil)))
+
+
+
+(defn -main [& args]
+  ;; The #' is useful when you want to hot-reload code
+  ;; You may want to take a look: https://github.com/clojure/tools.namespace
+  ;; and https://http-kit.github.io/migration.html#reload
+  (reset! server (http/run-server #'app {:port 8080})))
+
+(-main :kys)
+; java.net.BindException: Address already in use: bind user h:\games\clojure\ontiama_2.0\src\acme\server.clj:167:18
+bb꞉server꞉> 
+(println @state)
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+bb꞉logic꞉> 
+(possible-moves {:field [[:player2 :player2 :opportunity :opportunity :player2] 
+                                  [:opportunity :player2 :opportunity :player1 :opportunity] 
+                                  [:opportunity :opportunity :opportunity :opportunity :opportunity] 
+                                  [:opportunity :opportunity :opportunity :player1 :opportunity] 
+                                  [:player1 :player1 :player1 :opportunity :opportunity]], 
+                          :player :player1, 
+                          :kings {:player1 [2 4], 
+                                  :player2 [2 0]}, 
+                          :cards {:player1 #{:dragon :tiger}, 
+                                  :player2 #{:bear :tanuki}, 
+                                  :neutral :otter}} :tiger [3 1])
+bb꞉logic꞉> 
+(get-in [[:player2 :player2 :opportunity :opportunity :player2]
+                  [:opportunity :player2 :opportunity :player1 :opportunity]
+                  [:opportunity :opportunity :opportunity :opportunity :opportunity]
+                  [:opportunity :opportunity :opportunity :player1 :opportunity]
+                  [:player1 :player1 :player1 :opportunity :opportunity]]
+                 [3 1])
+bb꞉logic꞉> 
+(get-in [[:player2 :player2 :opportunity :opportunity :player2]
+                  [:opportunity :player2 :opportunity :player1 :opportunity]
+                  [:opportunity :opportunity :opportunity :opportunity :opportunity]
+                  [:opportunity :opportunity :opportunity :player1 :opportunity]
+                  [:player1 :player1 :player1 :opportunity :opportunity]]
+                 [3 2])
+bb꞉logic꞉> 
+(get-in [[:player2 :player2 :opportunity :opportunity :player2]
+                  [:opportunity :player2 :opportunity :player1 :opportunity]
+                  [:opportunity :opportunity :opportunity :opportunity :opportunity]
+                  [:opportunity :opportunity :opportunity :player1 :opportunity]
+                  [:player1 :player1 :player1 :opportunity :opportunity]]
+                 [1 3])
+bb꞉logic꞉> 
+(get-in battlefield [y x])
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: y user h:\games\clojure\ontiama_2.0\src\acme\logic.clj:1:1
+bb꞉logic꞉> 
+(filter #(and (<= 0 (first %) 4)
+                                        (<= 0 (second %) 4)
+                                        (not= selected-piece (get-in battlefield [(second %) (first %)])))
+                                  result)
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: selected-piece user h:\games\clojure\ontiama_2.0\src\acme\logic.clj:3:41
+bb꞉logic꞉> 
+(defn possible-moves ([state card position player]
+                      (let [[x y] position
+                            battlefield (state :field)
+                            moves (card card-moves)
+                            selected-piece (get-in battlefield [y x])
+                            operator (if (= selected-piece player) + -)
+                            result (map (fn [[dx dy]] [(operator x dx) (operator y dy)]) moves)]
+                        (when operator
+                          (filter #(and (<= 0 (first %) 4)
+                                        (<= 0 (second %) 4)
+                                        (not= selected-piece (get-in battlefield [(second %) (first %)])))
+                                  result))))
+  ([state card [x y]]
+   (possible-moves state card [x y] (get-in battlefield [y x]))))
+bb꞉logic꞉> 
+(comment (possible-moves {:field [[:player2 :player2 :opportunity :opportunity :player2] 
+                                  [:opportunity :player2 :opportunity :player1 :opportunity] 
+                                  [:opportunity :opportunity :opportunity :opportunity :opportunity] 
+                                  [:opportunity :opportunity :opportunity :player1 :opportunity] 
+                                  [:player1 :player1 :player1 :opportunity :opportunity]], 
+                          :player :player1, 
+                          :kings {:player1 [2 4], 
+                                  :player2 [2 0]}, 
+                          :cards {:player1 #{:dragon :tiger}, 
+                                  :player2 #{:bear :tanuki}, 
+                                  :neutral :otter}} :tiger [3 1]))
+bb꞉logic꞉> 
+(get-in [[:player2 :player2 :opportunity :opportunity :player2]
+                  [:opportunity :player2 :opportunity :player1 :opportunity]
+                  [:opportunity :opportunity :opportunity :opportunity :opportunity]
+                  [:opportunity :opportunity :opportunity :player1 :opportunity]
+                  [:player1 :player1 :player1 :opportunity :opportunity]]
+                 [1 3])
+bb꞉logic꞉> 
+(possible-moves {:field [[:player2 :player2 :opportunity :opportunity :player2] 
+                                  [:opportunity :player2 :opportunity :player1 :opportunity] 
+                                  [:opportunity :opportunity :opportunity :opportunity :opportunity] 
+                                  [:opportunity :opportunity :opportunity :player1 :opportunity] 
+                                  [:player1 :player1 :player1 :opportunity :opportunity]], 
+                          :player :player1, 
+                          :kings {:player1 [2 4], 
+                                  :player2 [2 0]}, 
+                          :cards {:player1 #{:dragon :tiger}, 
+                                  :player2 #{:bear :tanuki}, 
+                                  :neutral :otter}} :tiger [3 1])
+bb꞉logic꞉> 
+(get-in [[:player2 :player2 :opportunity :opportunity :player2]
+                  [:opportunity :player2 :opportunity :player1 :opportunity]
+                  [:opportunity :opportunity :opportunity :opportunity :opportunity]
+                  [:opportunity :opportunity :opportunity :player1 :opportunity]
+                  [:player1 :player1 :player1 :opportunity :opportunity]]
+                 [1 3])
+bb꞉logic꞉> 
+[3 1]
+bb꞉logic꞉> 
+(:tiger card-moves)
+bb꞉logic꞉> 
+(get-in battlefield [y x])
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: y user h:\games\clojure\ontiama_2.0\src\acme\logic.clj:1:1
+bb꞉logic꞉> 
+[x y] [3 1]
+               battlefield [[:player2 :player2 :opportunity :opportunity :player2]
+                            [:opportunity :player2 :opportunity :player1 :opportunity]
+                            [:opportunity :opportunity :opportunity :opportunity :opportunity]
+                            [:opportunity :opportunity :opportunity :player1 :opportunity]
+                            [:player1 :player1 :player1 :opportunity :opportunity]]
+               moves (:tiger card-moves)
+               selected-piece (get-in battlefield [y x])
+; : Unable to resolve symbol: x user 
+bb꞉logic꞉> 
+(get-in battlefield [y x])
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: y user h:\games\clojure\ontiama_2.0\src\acme\logic.clj:1:1
+bb꞉logic꞉> 
+let [
+               [x y] [3 1]
+               battlefield [[:player2 :player2 :opportunity :opportunity :player2]
+                            [:opportunity :player2 :opportunity :player1 :opportunity]
+                            [:opportunity :opportunity :opportunity :opportunity :opportunity]
+                            [:opportunity :opportunity :opportunity :player1 :opportunity]
+                            [:player1 :player1 :player1 :opportunity :opportunity]]
+               moves (:tiger card-moves)
+               selected-piece (get-in battlefield [y x])
+
+])
+; : Can't take value of a macro: #'clojure.core/let user 
+bb꞉logic꞉> 
+(let [
+               [x y] [3 1]
+               battlefield [[:player2 :player2 :opportunity :opportunity :player2]
+                            [:opportunity :player2 :opportunity :player1 :opportunity]
+                            [:opportunity :opportunity :opportunity :opportunity :opportunity]
+                            [:opportunity :opportunity :opportunity :player1 :opportunity]
+                            [:player1 :player1 :player1 :opportunity :opportunity]]
+               moves (:tiger card-moves)
+               selected-piece (get-in battlefield [y x])
+
+])
+bb꞉logic꞉> 
+(get-in battlefield [y x])
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: y user h:\games\clojure\ontiama_2.0\src\acme\logic.clj:1:1
+bb꞉logic꞉> 
+selected-piece
+; : Unable to resolve symbol: selected-piece user h:\games\clojure\ontiama_2.0\src\acme\logic.clj:1:1
+bb꞉logic꞉> 
+(let [[x y] [3 1]
+               battlefield [[:player2 :player2 :opportunity :opportunity :player2]
+                            [:opportunity :player2 :opportunity :player1 :opportunity]
+                            [:opportunity :opportunity :opportunity :opportunity :opportunity]
+                            [:opportunity :opportunity :opportunity :player1 :opportunity]
+                            [:player1 :player1 :player1 :opportunity :opportunity]]
+               moves (:tiger card-moves)
+               selected-piece (get-in battlefield [y x])
+               operator (if (= selected-piece :player1) + -)
+               result (map (fn [[dx dy]] [(operator x dx) (operator y dy)]) moves)]
+           (when operator
+             (filter #(and (<= 0 (first %) 4)
+                           (<= 0 (second %) 4)
+                           (not= selected-piece (get-in battlefield [(second %) (first %)])))
+                     result)))
+bb꞉logic꞉> 
+(possible-moves {:field [[:player2 :player2 :opportunity :opportunity :player2] 
+                                  [:opportunity :player2 :opportunity :player1 :opportunity] 
+                                  [:opportunity :opportunity :opportunity :opportunity :opportunity] 
+                                  [:opportunity :opportunity :opportunity :player1 :opportunity] 
+                                  [:player1 :player1 :player1 :opportunity :opportunity]], 
+                          :player :player1, 
+                          :kings {:player1 [2 4], 
+                                  :player2 [2 0]}, 
+                          :cards {:player1 #{:dragon :tiger}, 
+                                  :player2 #{:bear :tanuki}, 
+                                  :neutral :otter}} :tiger [3 1])
+bb꞉logic꞉> 
+(if (= selected-piece :player1) + -)
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: selected-piece user h:\games\clojure\ontiama_2.0\src\acme\logic.clj:1:5
+bb꞉logic꞉> 
+(possible-moves {:field [[:player2 :player2 :opportunity :opportunity :player2] 
+                                  [:opportunity :player2 :player1 :opportunity :opportunity] 
+                                  [:opportunity :opportunity :opportunity :opportunity :opportunity] 
+                                  [:opportunity :opportunity :opportunity :player1 :opportunity] 
+                                  [:player1 :player1 :player1 :opportunity :opportunity]], 
+                          :player :player1, 
+                          :kings {:player1 [2 4], :player2 [2 0]}, 
+                          :cards {:player1 #{:dragon :tiger}, 
+                                  :player2 #{:bear :tanuki}, 
+                                  :neutral :otter}} :tiger [1 1])
+bb꞉logic꞉> 
+(get-in battlefield [y x])
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: y user h:\games\clojure\ontiama_2.0\src\acme\logic.clj:1:1
+bb꞉logic꞉> 
+(pr-str :player1)
+bb꞉logic꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+(comment (parse-query "x=2&y=2&card="))
+bb꞉server꞉> 
+(coordinates (parse-query "x=2&y=2&card=") :x :y)
+bb꞉server꞉> 
+(parse-query "x=2&y=2&card=")
+bb꞉server꞉> 
+(parse-query "x=2&y=2&card=tiger")
+bb꞉server꞉> 
+(keyword "tiger")
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+clj꞉undefined꞉> 
+clj꞉undefined꞉> 
+clj꞉undefined꞉> 
+clj꞉undefined꞉> 
+clj꞉undefined꞉> 
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+bb꞉user꞉> 
+bb꞉server꞉> 
+@rooms
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+(create-room 123)
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.lang.IllegalArgumentException
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+(create-room 123)
+bb꞉server꞉> 
+(create-room 124)
+bb꞉server꞉> 
+(create-room 124)
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+(create-room 124)
+bb꞉server꞉> 
+(create-room 125)
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.lang.NullPointerException
+bb꞉server꞉> 
+(create-room 125)
+; java.lang.NullPointerException user /h:/games/clojure/ontiama_2.0/src/acme/server.clj:93:24
+bb꞉server꞉> 
+(create-room 125)
+; java.lang.NullPointerException user /h:/games/clojure/ontiama_2.0/src/acme/server.clj:93:24
+bb꞉server꞉> 
+(create-room 123)
+; java.lang.NullPointerException user /h:/games/clojure/ontiama_2.0/src/acme/server.clj:93:24
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+(create-room 123)
+bb꞉server꞉> 
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+bb꞉user꞉> 
+@rooms
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: rooms user h:\games\clojure\ontiama_2.0\src\acme\server.clj:1:1
+bb꞉server꞉> 
+(defonce rooms (atom {}))
+bb꞉server꞉> 
+@rooms
+bb꞉server꞉> 
+(create-room 123)
+bb꞉server꞉> 
+(create-room 123)
+bb꞉server꞉> 
+(create-room 123)
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+(create-room 123)
+bb꞉server꞉> 
+(@rooms 123)
+bb꞉server꞉> 
+(create-room 123)
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.lang.ClassCastException
+bb꞉server꞉> 
+(create-room 123)
+; java.lang.ClassCastException: java.lang.Long cannot be cast to clojure.lang.IFn user /h:/games/clojure/ontiama_2.0/src/acme/server.clj:93:24
+bb꞉server꞉> 
+(@rooms 123)
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+(create-room 123)
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+(create-room 123)
+bb꞉server꞉> 
+(create-room 124)
+bb꞉server꞉> 
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+bb꞉user꞉> 
+(@rooms 123)
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: rooms user h:\games\clojure\ontiama_2.0\src\acme\server.clj:1:2
+bb꞉server꞉> 
+(defonce rooms (atom {}))
+bb꞉server꞉> 
+([room-id]
+                   (if (@rooms room-id)
+                     "room busy"
+                     (swap! rooms assoc room-id {:field logic/battlefield
+                                                 :cards (:cards logic/state)
+                                                 :status :waiting})))
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: room-id user h:\games\clojure\ontiama_2.0\src\acme\server.clj:1:1
+bb꞉server꞉> 
+(defn create-room ([room-id]
+                   (if (@rooms room-id)
+                     "room busy"
+                     (swap! rooms assoc room-id {:field logic/battlefield
+                                                 :cards (:cards logic/state)
+                                                 :status :waiting})))
+  ([] (create-room (+ (rand-int 899) 100))))
+bb꞉server꞉> 
+@rooms
+bb꞉server꞉> 
+(@rooms 123)
+bb꞉server꞉> 
+(create-room 124)
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.lang.ClassCastException
+bb꞉server꞉> 
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+bb꞉user꞉> 
+(defonce rooms (atom {}))
+bb꞉server꞉> 
+(defn create-room ([room-id]
+                   (swap! rooms assoc room-id
+                          (if (@rooms room-id)
+                            (@rooms room-id)
+                            {:field logic/battlefield
+                             :cards (:cards logic/state)
+                             :status :waiting})))
+  ([] (let [random-rooms (iterate (partial (fn [f _] (f))) #(+ (rand-int 899) 100))
+            fitting-random-rooms (filter #((not (contains? @rooms %))) random-rooms)
+            first-fitting-room (first fitting-random-rooms)]
+        (create-room first-fitting-room))))
+bb꞉server꞉> 
+@rooms
+bb꞉server꞉> 
+(create-room)
+; java.lang.ClassCastException: java.lang.Boolean cannot be cast to clojure.lang.IFn user h:\games\clojure\ontiama_2.0\src\acme\server.clj:9:43
+bb꞉server꞉> 
+(defn create-room ([room-id]
+                   (swap! rooms assoc room-id
+                          (if (@rooms room-id)
+                            (@rooms room-id)
+                            {:field logic/battlefield
+                             :cards (:cards logic/state)
+                             :status :waiting})))
+  ([] (let [random-rooms (iterate (partial (fn [f _] (f))) #(+ (rand-int 899) 100))
+            fitting-random-rooms (filter #(not (contains? @rooms %)) random-rooms)
+            first-fitting-room (first fitting-random-rooms)]
+        (create-room first-fitting-room))))
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+@rooms
+bb꞉server꞉> 
+(create-room 124)
+bb꞉server꞉> 
+(defn create-room ([room-id]
+                   (swap! rooms assoc room-id
+                          (if (@rooms room-id)
+                            (@rooms room-id)
+                            {:field logic/battlefield
+                             :cards (:cards logic/state)
+                             :status :waiting})))
+  ([] (let [random-rooms (iterate (partial (fn [f _] (f))) #((+ (rand-int 899) 100)))
+            fitting-random-rooms (filter #(not (contains? @rooms %)) random-rooms)
+            first-fitting-room (first fitting-random-rooms)]
+        (create-room first-fitting-room))))
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+(defonce rooms (atom {}))
+bb꞉server꞉> 
+@rooms
+bb꞉server꞉> 
+(defn create-room ([room-id]
+                   (swap! rooms assoc room-id
+                          (if (@rooms room-id)
+                            (@rooms room-id)
+                            {:field logic/battlefield
+                             :cards (:cards logic/state)
+                             :status :waiting})))
+  ([] (let [random-rooms (iterate (partial (fn [f _] (f))) (+ (rand-int 899) 100))
+            fitting-random-rooms (filter #(not (contains? @rooms %)) random-rooms)
+            first-fitting-room (first fitting-random-rooms)]
+        (create-room first-fitting-room))))
+bb꞉server꞉> 
+@rooms
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+bb꞉user꞉> 
+(defonce rooms (atom {}))
+bb꞉server꞉> 
+(defn create-room ([room-id]
+                   (swap! rooms assoc room-id
+                          (if (@rooms room-id)
+                            (@rooms room-id)
+                            {:field logic/battlefield
+                             :cards (:cards logic/state)
+                             :status :waiting})))
+  ([] (let [random-rooms (iterate (partial (fn [f _] (f))) (+ (rand-int 899) 100))
+            fitting-random-rooms (filter #(not (contains? @rooms %)) random-rooms)
+            first-fitting-room (first fitting-random-rooms)]
+        (create-room first-fitting-room))))
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+(create-room)
+bb꞉server꞉> 
+bb꞉logic꞉> 
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+; Evaluation of file server.clj failed: class java.net.BindException
+bb꞉server꞉> 
+; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
+bb꞉acme.main꞉> 

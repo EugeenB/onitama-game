@@ -1,0 +1,223 @@
+(ns acme.main
+  (:require ["package:flutter/material.dart" :as m]
+            ["package:http/http.dart" :as http]
+            ["dart:core" :as dc]
+            [cljd.flutter :as f]
+            [clojure.edn :as edn]
+            [clojure.string :as str]))
+
+(def server-path "http://127.0.0.1:8080")
+
+(def battlefield
+  [[:player2 :player2 :player2 :opportunity :player2]
+   [:opportunity :player2 :opportunity :opportunity :opportunity]
+   [:opportunity :opportunity :player1 :opportunity :opportunity]
+   [:opportunity :opportunity :opportunity :player1 :opportunity]
+   [:player1 :player1 :player1 :opportunity :opportunity]])
+
+(defonce state (atom
+                {:selected-tile nil
+                 :move-to-tiles #{}
+                 :selected-card nil
+                 :field battlefield
+                 :room nil
+                 :player nil
+                 :my-turn nil
+                 :cards {:player1 #{"tiger" "otter"}
+                         :player2 #{"bear" "tanuki"}
+                         :neutral "dragon"}}))
+
+(def tile-style
+  {false (m/ButtonStyle
+          .backgroundColor (m/WidgetStatePropertyAll m.Colors/white)
+          .shape (m/WidgetStatePropertyAll (m/RoundedRectangleBorder .borderRadius m.BorderRadius/zero)))
+   true  (m/ButtonStyle
+          .backgroundColor (m/WidgetStatePropertyAll m.Colors/green)
+          .shape (m/WidgetStatePropertyAll (m/RoundedRectangleBorder .borderRadius m.BorderRadius/zero)))})
+
+(def tile-decoration
+  {false (m/BoxDecoration
+          .border (m/Border.all .color m.Colors/black .width 2.0)
+          .color m.Colors/white)
+   true  (m/BoxDecoration
+          .border (m/Border.all .color m.Colors/yellow .width 5.0)
+          .color m.Colors/yellow)})
+
+(defn- reset-ui [state]
+  (swap! state assoc :selected-tile nil)
+  (swap! state assoc :selected-card nil)
+  (swap! state assoc :move-to-tiles #{}))
+
+(defn make-url [server-path action-path params]
+  (let [query (->> params
+                   (map (fn [[k v]]
+                          (str (name k) "=" (if (keyword? v) (name v) v))))
+                   (str/join "&"))]
+    (dc/Uri.parse (str server-path "/" action-path "?" query))))
+
+(defn server-response [req-method url]
+  (-> (req-method url)
+      (.then (fn [^http/Response res]
+               (println (.-body res))
+               (edn/read-string (.-body res))))
+      (.catchError (fn [e]
+                     (println "Мережева помилка для" url ":" e)
+                     nil)))) ;; Повертаємо nil у разі помилки
+
+(defn handle-show-moves [server-path state [x y]]
+  (let [card (:selected-card @state)
+        url (make-url server-path "moves" {:card card
+                                           :x x :y y
+                                           :player (name (:player @state))})]
+    (swap! state assoc :selected-tile [x y])
+    (println "query: " url)
+    (-> (server-response http/get url)
+        (.then (fn [moves]
+                 (when moves
+                   (swap! state assoc :move-to-tiles (set moves))))))
+    nil)) ;; ВАЖЛИВО: повертаємо nil, щоб Dart не сварився на void
+
+
+
+(defn handle-make-move [server-path state [x y]]
+  (let [card (@state :selected-card)
+        [x-from y-from] (@state :selected-tile)
+        url (make-url server-path "action-move" {:card card
+                                                 :x-to x :y-to y
+                                                 :x-from x-from :y-from y-from
+                                                 :player (:player @state)})]
+    (println "query: " url)
+    (reset-ui state) ;; atom changes
+    (-> (server-response http/post url)
+        (.then (fn [server-data]
+                 (when server-data
+
+                   ;; merge оновить у нашому атомі :field, :cards, :kings, :player одним махом!
+                   (swap! state merge server-data)
+                   ;; (println "Держава успішно оновлена з сервера!")
+                   ))))
+    nil))
+
+(defn handle-tile-press [server-path state [x y]]
+  ;; (println (@state :field))
+  ;; (println (str (@state :selected-card) " selected-card "))
+  ;; (println (str (@state :selected-tile) " selected-tile "))
+  ;; (println (str (@state :move-to-tiles) " move-to-tiles "))
+  (let [piece (get-in (@state :field) [y x])
+        my-turn? (:my-turn @state)
+        movable? (contains? (@state :move-to-tiles) [x y])
+        valid-turn? (and my-turn? movable?)]
+    ;; (println piece move?)
+    (cond valid-turn? (handle-make-move server-path state [x y])
+          (= piece :opportunity) (reset-ui state)
+          :else (handle-show-moves server-path state [x y]))))
+
+
+(defn draw-button [[x y] state on-press]
+  (let [s-tile (state :selected-tile)
+        m-tiles (state :move-to-tiles)
+        piece         (get-in (state :field) [y x])
+        selected-tile? (= s-tile [x y])
+        move-to-tile? (contains? m-tiles [x y])]
+    ;; (println "selected-tile:"  s-tile "coord:" [x y] "=?" selected-tile?)
+    (m/Padding
+     .padding (m/EdgeInsets.all 1.0)
+     .child
+     (m/Container
+      .width 100.0
+      .height 100.0
+      .decoration (tile-decoration move-to-tile?)
+      .child
+      (m/ElevatedButton
+       .onPressed on-press
+       .style (tile-style selected-tile?)
+       .child (m/Text (str (name piece)) .style (m/TextStyle .fontSize 14.0)))))))
+
+(defn draw-card-button [card swap-fn]
+  (m/ElevatedButton
+   .onPressed
+   (fn []
+     (swap-fn))
+   .child (m/Text (if (keyword? card) (name card) card))))
+
+(defn draw-game [state]
+
+  (let [state-value @state]
+
+    (m/Center
+     .child
+     (m/Row
+      .children
+      [(m/Column
+        .mainAxisSize m.MainAxisSize/min
+        .children
+        [(draw-card-button (:neutral (:cards state-value))
+                           (fn []
+                             (swap! state assoc :selected-card (:neutral (:cards state-value)))))
+         (m/ElevatedButton
+          .onPressed
+          (fn []
+            (reset-ui state))
+          .child (m/Text "CANCEL"))])
+
+       (m/Column
+        .mainAxisSize m.MainAxisSize/min
+        .children
+        (vec (concat [(m/Row
+                       .mainAxisSize m.MainAxisSize/min
+                       .children
+                       (mapv (fn [card]
+                               (draw-card-button card (fn []
+                                                        (swap! state assoc :selected-card
+                                                               card))))
+                             (:player2 (:cards state-value))))]
+                     (vec
+                      (for [y (range 5)]
+                        (m/Row
+                         .mainAxisSize m.MainAxisSize/min
+                         .children
+                         (vec
+                          (for [x (range 5)]
+                            (draw-button [x y] state-value (fn []
+                                                             (handle-tile-press server-path state [x y]))))))))
+                     [(m/Row
+                       .mainAxisSize m.MainAxisSize/min
+                       .children
+                       (mapv (fn [card]
+                               (draw-card-button card (fn []
+                                                        (swap! state assoc :selected-card
+                                                               card))))
+                             (:player1 (:cards state-value))))])))]))))
+
+(defn draw-menu [state]
+  (m/Center
+   .child
+   (m/Row
+    .children
+    [(m/Expanded
+      .child
+      (m/TextField
+       .autofocus true
+       .decoration (m/InputDecoration .hintText "room id here, press ENTER to join")
+       .onSubmitted (fn [text]
+                      (server-response http/get (make-url server-path "join" {:room-id text})))))
+     (m/ElevatedButton
+      .onPressed
+      (fn []
+        (server-response http/post (make-url server-path "create-room" {:room-id "123"})))
+      .child (m/Text "create new"))])))
+
+(defn main []
+  (f/run
+   (m/MaterialApp
+    .home
+    (f/widget
+     :watch [state-value state]
+     (m/Scaffold
+      .appBar (m/AppBar .title (m/Text "Onitama"))
+      .body
+      (if (state-value :player)
+        (do (println "game")
+            (draw-game state))
+        (do (println "menu")
+            (draw-menu state))))))))
