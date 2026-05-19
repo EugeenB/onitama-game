@@ -1083,3 +1083,53 @@ bb꞉server꞉> 
 bb꞉server꞉> 
 ; Evaluation of file main.cljd failed: class java.io.FileNotFoundException
 bb꞉acme.main꞉> 
+clj꞉undefined꞉> 
+clj꞉undefined꞉> 
+(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))
+bb꞉user꞉> 
+(ns acme.testing
+  (:require
+            [clojure.edn :as edn]
+            [clojure.string :as str]))
+(def server-path "http://127.0.0.1:8080")
+(defn make-url [server-path action-path params]
+  (let [query (->> params
+                   (map (fn [[k v]]
+                          (str (name k) "=" (if (keyword? v) (name v) v))))
+                   (str/join "&"))]
+    (dc/Uri.parse (str server-path "/" action-path "?" query))))
+
+
+(comment (make-url server-path "moves" {:room-id  (:room-id {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2})
+                                        :card (:selected-card  {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2})
+                                        :x 2 :y 0
+                                        :player (name (:player {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2}))}))
+; clojure.lang.ExceptionInfo: Unable to resolve symbol: dc/Uri.parse user h:\games\clojure\ontiama_2.0\onitama-game\src\acme\testing.clj:11:5
+bb꞉acme.testing꞉> 
+(ns acme.testing
+  (:require
+   [clojure.edn :as edn]
+   [clojure.string :as str]
+   ["dart:core" :as dc]))
+(def server-path "http://127.0.0.1:8080")
+(defn make-url [server-path action-path params]
+  (let [query (->> params
+                   (map (fn [[k v]]
+                          (str (name k) "=" (if (keyword? v) (name v) v))))
+                   (str/join "&"))]
+    (dc/Uri.parse (str server-path "/" action-path "?" query))))
+
+
+(comment (make-url server-path "moves" {:room-id  (:room-id {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2})
+                                        :card (:selected-card  {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2})
+                                        :x 2 :y 0
+                                        :player (name (:player {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2}))}))
+; java.io.FileNotFoundException: Could not locate dart:core.bb, dart:core.clj or dart:core.cljc on classpath. user h:\games\clojure\ontiama_2.0\onitama-game\src\acme\testing.clj:2:3
+bb꞉acme.testing꞉> 
+(make-url server-path "moves" {:room-id  (:room-id {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2})
+                                        :card (:selected-card  {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2})
+                                        :x 2 :y 0
+                                        :player (name (:player {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2}))
+                                        })
+; java.lang.IllegalStateException: Attempting to call unbound fn: #'acme.testing/make-url user h:\games\clojure\ontiama_2.0\onitama-game\src\acme\testing.clj:1:1
+bb꞉acme.testing꞉> 

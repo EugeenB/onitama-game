@@ -99,10 +99,10 @@
             fitting-random-rooms (filter #(not (contains? @rooms %)) random-rooms)
             first-fitting-room (first fitting-random-rooms)]
         (create-room first-fitting-room))))
-@rooms
-(create-room 124)
-(@rooms 123)
-(create-room)
+;; @rooms
+;; (create-room 124)
+;; (@rooms 123)
+;; (create-room)
 
 
 (defn parse-query [query-string]
@@ -125,7 +125,7 @@
         [x y] (coordinates params-set :x :y)
         card (keyword (:card params-set))
         player (keyword (:player params-set))
-        moves (logic/possible-moves ((rooms room-id) :state) card [x y] player)]
+        moves (logic/possible-moves ((get rooms room-id) :state) card [x y] player)]
     (println moves)
     {:status  200
      :headers {"Content-Type" "text/html"}
@@ -153,17 +153,31 @@
     (cond (and (= path "/moves") (= method :get))
           (look-moves @rooms room-id params)
           (and (= path "/create-room") (= method :post))
-          (let [set-params (parse-query params)]
-            (do (create-room (:room-id set-params))
-                {:status  200
-                 :headers {"Content-Type" "text/html"}
-                 :body    (pr-str (@rooms (:room-id set-params)))}))
+          (let [set-params (parse-query params)
+                room-id? (:room-id set-params)
+                created-room (if room-id?
+                               (create-room room-id?)
+                               (create-room))]
+            (println created-room)
+            {:status  200
+             :headers {"Content-Type" "application/edn"}
+             :body    (pr-str {:player (if created-room :player1 nil) :room created-room})})
+          (and (= path "/join-room") (= method :post))
+          (let [set-params (parse-query params)
+                room-id? (:room-id set-params)
+                joined-room (if room-id?
+                              (@rooms room-id?)
+                              nil)]
+            (println joined-room)
+            {:status  200
+             :headers {"Content-Type" "application/edn"}
+             :body    (pr-str {:player (if joined-room :player2 nil) :room joined-room})})
           (and (= path "/action-move") (= method :post))
           (let [new-state (make-move @rooms room-id params)
                 winner (logic/game-over? new-state)]
             (swap! rooms assoc-in [room-id :state] new-state)
             {:status  200
-             :headers {"Content-Type" "text/html"}
+             :headers {"Content-Type" "application/edn"}
              :body    (pr-str new-state)})
           :else
           {:status  404

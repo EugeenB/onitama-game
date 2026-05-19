@@ -55,6 +55,11 @@
                    (str/join "&"))]
     (dc/Uri.parse (str server-path "/" action-path "?" query))))
 
+(comment (make-url server-path "moves" {:room-id  (:room-id {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2})
+                                        :card (:selected-card  {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2})
+                                        :x 2 :y 0
+                                        :player (name (:player {:selected-card nil, :room-id 123, :field [[:player2 :player2 :player2 :opportunity :player2] [:opportunity :player2 :opportunity :opportunity :opportunity] [:opportunity :opportunity :player1 :opportunity :opportunity] [:opportunity :opportunity :opportunity :player1 :opportunity] [:player1 :player1 :player1 :opportunity :opportunity]], :room nil, :selected-tile nil, :cards {:player2 #{:tanuki :bear}, :neutral :dragon, :player1 #{:tiger :otter}}, :move-to-tiles #{}, :my-turn nil, :player :player2}))}))
+
 (defn server-response [req-method url]
   (-> (req-method url)
       (.then (fn [^http/Response res]
@@ -66,7 +71,8 @@
 
 (defn handle-show-moves [server-path state [x y]]
   (let [card (:selected-card @state)
-        url (make-url server-path "moves" {:card card
+        url (make-url server-path "moves" {:room-id (:room-id @state)
+                                           :card card
                                            :x x :y y
                                            :player (name (:player @state))})]
     (swap! state assoc :selected-tile [x y])
@@ -82,7 +88,8 @@
 (defn handle-make-move [server-path state [x y]]
   (let [card (@state :selected-card)
         [x-from y-from] (@state :selected-tile)
-        url (make-url server-path "action-move" {:card card
+        url (make-url server-path "action-move" {:room-id (:room-id @state)
+                                                 :card card
                                                  :x-to x :y-to y
                                                  :x-from x-from :y-from y-from
                                                  :player (:player @state)})]
@@ -185,6 +192,7 @@
                        .children
                        (mapv (fn [card]
                                (draw-card-button card (fn []
+                                                        (println @state)
                                                         (swap! state assoc :selected-card
                                                                card))))
                              (:player1 (:cards state-value))))])))]))))
@@ -199,12 +207,35 @@
       (m/TextField
        .autofocus true
        .decoration (m/InputDecoration .hintText "room id here, press ENTER to join")
-       .onSubmitted (fn [text]
-                      (server-response http/get (make-url server-path "join" {:room-id text})))))
+       .onSubmitted
+       (fn [text]
+         (-> (server-response http/post (make-url server-path "join-room" {:room-id (parse-long text)}))
+             (.then (fn [server-data]
+                      (println "server-data:" server-data)
+                      (let [room-map (:room server-data)
+                            room-info (or (get room-map text)
+                                          (get room-map (keyword text)))
+                            server-game-state (:state room-info)]
+                        (swap! state merge server-game-state)
+                        (swap! state assoc :player (:player server-data))
+                        (swap! state assoc :room-id text)
+
+                        (println "create-state - join: " @state))))))))
      (m/ElevatedButton
       .onPressed
       (fn []
-        (server-response http/post (make-url server-path "create-room" {:room-id "123"})))
+        (let [requested-id "123"] ;; TextField
+          (-> (server-response http/post (make-url server-path "create-room" {:room-id requested-id}))
+              (.then (fn [server-data]
+                       (println "server-data:" server-data)
+                       (let [room-map (:room server-data)
+                             room-info (or (get room-map requested-id)
+                                           (get room-map (keyword requested-id)))
+                             server-game-state (:state room-info)]
+                         (swap! state merge server-game-state)
+                         (swap! state assoc :player (:player server-data))
+                         (swap! state assoc :room-id requested-id)
+                         (println "create-state - new: " @state)))))))
       .child (m/Text "create new"))])))
 
 (defn main []
