@@ -94,15 +94,28 @@
                           (if (@rooms room-id)
                             (@rooms room-id)
                             {:state logic/state
-                             :status :waiting})))
-  ([] (let [random-rooms (iterate (partial (fn [f _] (f))) (+ (rand-int 900) 100))
+                             :missing-player :player2})))
+  ([] (let [random-rooms (iterate (partial (fn [f _] (f))) (+ (rand-int 900) 100)) ;; do not remove, iterate + partial combo is cool
             fitting-random-rooms (filter #(not (contains? @rooms %)) random-rooms)
             first-fitting-room (first fitting-random-rooms)]
         (create-room first-fitting-room))))
+
+(defn join-room [room-id]
+  (let [room (@rooms room-id)
+        missing-player (if room (:missing-player room) nil)
+        joined-room (if missing-player (assoc (@rooms room-id) :missing-player nil) nil)]
+    (if missing-player (do
+                         (swap! rooms assoc room-id joined-room)
+                         [(@rooms room-id) missing-player])
+        nil)))
+
+;; tests
 ;; @rooms
+;; (reset! rooms {})
 ;; (create-room 124)
 ;; (@rooms 123)
 ;; (create-room)
+;; (join-room 124)
 
 
 (defn parse-query [query-string]
@@ -153,10 +166,8 @@
     (cond (and (= path "/moves") (= method :get))
           (look-moves @rooms room-id params)
           (and (= path "/create-room") (= method :post))
-          (let [set-params (parse-query params)
-                room-id? (:room-id set-params)
-                created-room (if room-id?
-                               (create-room room-id?)
+          (let [created-room (if room-id
+                               (create-room room-id)
                                (create-room))]
             (println created-room)
             {:status  200
@@ -165,13 +176,11 @@
           (and (= path "/join-room") (= method :post))
           (let [set-params (parse-query params)
                 room-id? (:room-id set-params)
-                joined-room (if room-id?
-                              (@rooms room-id?)
-                              nil)]
+                [joined-room player-joined] (join-room room-id?)]
             (println joined-room)
             {:status  200
              :headers {"Content-Type" "application/edn"}
-             :body    (pr-str {:player (if joined-room :player2 nil) :room joined-room})})
+             :body    (pr-str {:player (if joined-room player-joined nil) :room joined-room})})
           (and (= path "/action-move") (= method :post))
           (let [new-state (make-move @rooms room-id params)
                 winner (logic/game-over? new-state)]

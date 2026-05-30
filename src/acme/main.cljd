@@ -23,9 +23,9 @@
                  :room nil
                  :player nil
                  :my-turn nil
-                 :cards {:player1 #{"tiger" "otter"}
-                         :player2 #{"bear" "tanuki"}
-                         :neutral "dragon"}}))
+                 :cards {:player1 #{}
+                         :player2 #{}
+                         :neutral nil}}))
 
 (def tile-style
   {false (m/ButtonStyle
