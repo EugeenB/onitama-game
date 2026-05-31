@@ -71,23 +71,25 @@
    (:require [clojure.edn :refer [read-string]])
    (:require [clojure.string :as str]))
 
-(defonce state (atom nil))
-
-(def mock-req-moves
-  {:uri "/moves"
-   :request-method :get
-   :query-string "card=tiger&x=2&y=2"})
-
-(def mock-req-action-move
-  (-> mock-req-moves
-      (assoc :query-string "card=tiger&x-from=2&y-from=2&x-to=2&y-to=0")
-      (assoc :request-method :post)
-      (assoc :uri "/action-move")))
-
-(reset! state logic/state)
+;; (defonce state (atom nil))
+;; 
+;; (def mock-req-moves
+;;   {:uri "/moves"
+;;    :request-method :get
+;;    :query-string "card=tiger&x=2&y=2"})
+;; 
+;; (def mock-req-action-move
+;;   (-> mock-req-moves
+;;       (assoc :query-string "card=tiger&x-from=2&y-from=2&x-to=2&y-to=0")
+;;       (assoc :request-method :post)
+;;       (assoc :uri "/action-move")))
+;; 
+;; (reset! state logic/state)
 ;; @state
 
-(defonce rooms (atom {}))
+(defonce rooms (atom {})) ;; rooms list - {123 {:state {...} :missing-player nil :turn :player1}}
+
+(defonce channel-hub (atom #{})) ;; channel list - players' connection to the server for long-polling (processing opponent actions)
 
 (defn create-room ([room-id]
                    (swap! rooms assoc room-id
@@ -129,9 +131,9 @@
   [(Integer/parseInt (x vec))
    (Integer/parseInt (y vec))])
 
-(comment (parse-query "x=2&y=2&card=tiger"))
-(comment (coordinates (parse-query "x=2&y=2&card=") :x :y))
-(comment (keyword "tiger"))
+;; (comment (parse-query "x=2&y=2&card=tiger"))
+;; (comment (coordinates (parse-query "x=2&y=2&card=") :x :y))
+;; (comment (keyword "tiger"))
 
 (defn look-moves [rooms room-id params]
   (let [params-set (parse-query params)
@@ -142,7 +144,7 @@
     (println moves)
     {:status  200
      :headers {"Content-Type" "text/html"}
-     :body    (pr-str moves)}))
+     :body    (pr-str [moves player])}))
 
 
 (defn make-move [rooms room-id params]
@@ -163,39 +165,46 @@
         room-id (:room-id (parse-query params))]
     (println req)
     ;; (reset! state logic/state)
-    (cond (and (= path "/moves") (= method :get))
-          (look-moves @rooms room-id params)
-          (and (= path "/create-room") (= method :post))
-          (let [created-room (if room-id
-                               (create-room room-id)
-                               (create-room))]
-            (println created-room)
-            {:status  200
-             :headers {"Content-Type" "application/edn"}
-             :body    (pr-str {:player (if created-room :player1 nil) :room created-room})})
-          (and (= path "/join-room") (= method :post))
-          (let [set-params (parse-query params)
-                room-id? (:room-id set-params)
-                [joined-room player-joined] (join-room room-id?)]
-            (println joined-room)
-            {:status  200
-             :headers {"Content-Type" "application/edn"}
-             :body    (pr-str {:player (if joined-room player-joined nil) :room joined-room})})
-          (and (= path "/action-move") (= method :post))
-          (let [new-state (make-move @rooms room-id params)
-                winner (logic/game-over? new-state)]
-            (swap! rooms assoc-in [room-id :state] new-state)
-            {:status  200
-             :headers {"Content-Type" "application/edn"}
-             :body    (pr-str new-state)})
-          :else
-          {:status  404
-           :headers {"Content-Type" "text/html"}
-           :body    "ойойой!"})))
+    (cond
+      (and (= path "/subscribe") (= method :get))
+      (http/with-channel req channel
+        (swap! channel-hub conj channel)
+        (http/on-close channel (fn [_] (swap! channel-hub disj channel)))
+        (println "channel:" channel))
+      (and (= path "/moves") (= method :get))
+      (look-moves @rooms room-id params)
+      (and (= path "/create-room") (= method :post))
+      (let [created-room (if room-id
+                           (create-room room-id)
+                           (create-room))]
+        (println created-room)
+        {:status  200
+         :headers {"Content-Type" "application/edn"}
+         :body    (pr-str {:player (if created-room :player1 nil) :room created-room})})
+      (and (= path "/join-room") (= method :post))
+      (let [set-params (parse-query params)
+            room-id? (:room-id set-params)
+            [joined-room player-joined] (join-room room-id?)]
+        (println joined-room)
+        {:status  200
+         :headers {"Content-Type" "application/edn"}
+         :body    (pr-str {:player (if joined-room player-joined nil) :room joined-room})})
+      (and (= path "/action-move") (= method :post))
+      (let [new-state (make-move @rooms room-id params)
+            winner (logic/game-over? new-state)]
+        (swap! rooms assoc-in [room-id :state] new-state)
+        {:status  200
+         :headers {"Content-Type" "application/edn"}
+         :body    (pr-str new-state)})
+      :else
+      {:status  404
+       :headers {"Content-Type" "text/html"}
+       :body    "ойойой!"})))
 
 
-(comment (app mock-req-moves))
-(comment (app mock-req-action-move))
+
+;; (comment (app mock-req-moves))
+;; (comment (app mock-req-action-move))
 
 (defonce server (atom nil))
 

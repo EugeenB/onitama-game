@@ -69,6 +69,17 @@
                      (println "Мережева помилка для" url ":" e)
                      nil)))) ;; Повертаємо nil у разі помилки
 
+(defn listen-for-updates [state]
+  (-> (server-response http/get (make-url server-path "subscribe" {:room-id (@state :room-id)}))
+      (.then (fn [new-server-game-state]
+               (let [[new-state player] new-server-game-state]
+                 (when new-state
+                   (println "opponent made a move!")
+                   (swap! state merge new-state)
+                   (if (not= player (@state :player)) (swap! state assoc :my-turn true) (swap! state assoc :my-turn nil))
+                   ;; РЕКУРСІЯ: Запускаємо слухача знову, бо попереднє з'єднання сервер уже закрив!
+                   (listen-for-updates state)))))))
+
 (defn handle-show-moves [server-path state [x y]]
   (let [card (:selected-card @state)
         url (make-url server-path "moves" {:room-id (:room-id @state)
@@ -97,12 +108,14 @@
     (reset-ui state) ;; atom changes
     (-> (server-response http/post url)
         (.then (fn [server-data]
-                 (when server-data
+                 (let [[new-state player] server-data]
+                   (when new-state
 
-                   ;; merge оновить у нашому атомі :field, :cards, :kings, :player одним махом!
-                   (swap! state merge server-data)
-                   ;; (println "Держава успішно оновлена з сервера!")
-                   ))))
+                     ;; merge оновить у нашому атомі :field, :cards, :kings, :player одним махом!
+                     (swap! state merge new-state)
+                     (if (not= player (@state :player)) (swap! state assoc :my-turn true) (swap! state assoc :my-turn nil))
+                     ;; (println "Держава успішно оновлена з сервера!")
+                     )))))
     nil))
 
 (defn handle-tile-press [server-path state [x y]]
@@ -192,7 +205,7 @@
                        .children
                        (mapv (fn [card]
                                (draw-card-button card (fn []
-                                                        (println @state)
+                                                        ;; (println @state)
                                                         (swap! state assoc :selected-card
                                                                card))))
                              (:player1 (:cards state-value))))])))]))))
@@ -219,7 +232,7 @@
                         (swap! state merge server-game-state)
                         (swap! state assoc :player (:player server-data))
                         (swap! state assoc :room-id text)
-
+                        (listen-for-updates state)
                         (println "create-state - join: " @state))))))))
      (m/ElevatedButton
       .onPressed
@@ -235,6 +248,7 @@
                          (swap! state merge server-game-state)
                          (swap! state assoc :player (:player server-data))
                          (swap! state assoc :room-id requested-id)
+                         (listen-for-updates state)
                          (println "create-state - new: " @state)))))))
       .child (m/Text "create new"))])))
 
@@ -245,7 +259,10 @@
     (f/widget
      :watch [state-value state]
      (m/Scaffold
-      .appBar (m/AppBar .title (m/Text "Onitama"))
+      .appBar (m/AppBar .toolbarHeight 100.0
+                        .title (m/Text (str "Onitama - room " (:room-id state-value)
+                                            "\nYou are " (name (:player state-value))
+                                            "\nIt is " (if (:my-turn state-value) "" "not") " your turn")))
       .body
       (if (state-value :player)
         (do (println "game")
