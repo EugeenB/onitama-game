@@ -144,7 +144,7 @@
     (println moves)
     {:status  200
      :headers {"Content-Type" "text/html"}
-     :body    (pr-str [moves player])}))
+     :body    (pr-str moves)}))
 
 
 (defn make-move [rooms room-id params]
@@ -156,7 +156,7 @@
         state ((rooms room-id) :state)
         new-state (logic/action-move state player card [x-from y-from] [x-to y-to])]
     (println new-state)
-    new-state))
+    [new-state player]))
 
 (defn app [req]
   (let [method (:request-method req)
@@ -186,16 +186,20 @@
             room-id? (:room-id set-params)
             [joined-room player-joined] (join-room room-id?)]
         (println joined-room)
+        (doseq [channel @channel-hub]
+          (http/send! channel {:status 200 :headers {"Content-Type" "application/edn"} :body (pr-str [(:state joined-room) :player2])}))
         {:status  200
          :headers {"Content-Type" "application/edn"}
          :body    (pr-str {:player (if joined-room player-joined nil) :room joined-room})})
       (and (= path "/action-move") (= method :post))
-      (let [new-state (make-move @rooms room-id params)
+      (let [[new-state player] (make-move @rooms room-id params)
             winner (logic/game-over? new-state)]
         (swap! rooms assoc-in [room-id :state] new-state)
+        (doseq [channel @channel-hub]
+          (http/send! channel {:status 200 :headers {"Content-Type" "application/edn"} :body (pr-str [new-state player])}))
         {:status  200
          :headers {"Content-Type" "application/edn"}
-         :body    (pr-str new-state)})
+         :body    (pr-str [new-state player])})
       :else
       {:status  404
        :headers {"Content-Type" "text/html"}
