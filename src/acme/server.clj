@@ -93,14 +93,17 @@
 
 (defn create-room ([room-id]
                    (swap! rooms assoc room-id
-                          (if (@rooms room-id)
-                            (@rooms room-id)
-                            {:state logic/state
-                             :missing-player :player2})))
-  ([] (let [random-rooms (iterate (partial (fn [f _] (f))) (+ (rand-int 900) 100)) ;; do not remove, iterate + partial combo is cool
-            fitting-random-rooms (filter #(not (contains? @rooms %)) random-rooms)
-            first-fitting-room (first fitting-random-rooms)]
-        (create-room first-fitting-room))))
+                          (if (@rooms room-id)          ;; if a room already exists
+                            (@rooms room-id)            ;; return said room
+                            {:state logic/state         ;; else create a new one
+                             :missing-player :player2
+                             :channels #{}}))
+                   (get @rooms room-id))                ;; return created room
+  ([]
+   (let [random-rooms (iterate (partial (fn [f _] (f))) (+ (rand-int 900) 100)) ;; do not remove, iterate + partial combo is cool
+         fitting-random-rooms (filter #(not (contains? @rooms %)) random-rooms)
+         first-fitting-room (first fitting-random-rooms)]
+     (create-room first-fitting-room))))
 
 (defn join-room [room-id]
   (let [room (@rooms room-id)
@@ -168,8 +171,8 @@
     (cond
       (and (= path "/subscribe") (= method :get))
       (http/with-channel req channel
-        (swap! channel-hub conj channel)
-        (http/on-close channel (fn [_] (swap! channel-hub disj channel)))
+        (swap! rooms update-in [room-id :channels] conj channel)
+        (http/on-close channel (fn [_] (swap! rooms update-in [room-id :channels] disj channel)))
         (println "channel:" channel))
       (and (= path "/moves") (= method :get))
       (look-moves @rooms room-id params)
@@ -186,7 +189,7 @@
             room-id? (:room-id set-params)
             [joined-room player-joined] (join-room room-id?)]
         (println joined-room)
-        (doseq [channel @channel-hub]
+        (doseq [channel ((@rooms room-id) :channels)]
           (http/send! channel {:status 200 :headers {"Content-Type" "application/edn"} :body (pr-str [(:state joined-room) :player2])}))
         {:status  200
          :headers {"Content-Type" "application/edn"}

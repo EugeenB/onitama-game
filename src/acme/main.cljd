@@ -126,8 +126,9 @@
   ;; (println (str (@state :move-to-tiles) " move-to-tiles "))
   (let [piece (get-in (@state :field) [y x])
         my-turn? (:my-turn @state)
+        my-card? (contains? ((@state :cards) (@state :player)) (@state :selected-card))
         movable? (contains? (@state :move-to-tiles) [x y])
-        valid-turn? (and my-turn? movable?)]
+        valid-turn? (and my-turn? movable? my-card?)]
     ;; (println piece move?)
     (cond valid-turn? (handle-make-move server-path state [x y])
           (= piece :opportunity) (reset-ui state)
