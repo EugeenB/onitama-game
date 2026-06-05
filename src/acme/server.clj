@@ -166,7 +166,7 @@
         params (:query-string req)
         path (:uri req)
         room-id (:room-id (parse-query params))]
-    (println req)
+    ;; (println req)
     ;; (reset! state logic/state)
     (cond
       (and (= path "/subscribe") (= method :get))
@@ -180,17 +180,17 @@
       (let [created-room (if room-id
                            (create-room room-id)
                            (create-room))]
-        (println created-room)
+        (println "created-room " created-room)
         {:status  200
          :headers {"Content-Type" "application/edn"}
          :body    (pr-str {:player (if created-room :player1 nil) :room created-room})})
       (and (= path "/join-room") (= method :post))
-      (let [set-params (parse-query params)
-            room-id? (:room-id set-params)
-            [joined-room player-joined] (join-room room-id?)]
-        (println joined-room)
+      (let [[joined-room-with-channel player-joined] (join-room room-id)
+            joined-room (dissoc joined-room-with-channel :channels)]
+        (println "joined-room " joined-room)
         (doseq [channel ((@rooms room-id) :channels)]
           (http/send! channel {:status 200 :headers {"Content-Type" "application/edn"} :body (pr-str [(:state joined-room) :player2])}))
+        (println (pr-str {:player (if joined-room player-joined nil) :room joined-room}))
         {:status  200
          :headers {"Content-Type" "application/edn"}
          :body    (pr-str {:player (if joined-room player-joined nil) :room joined-room})})
@@ -198,7 +198,7 @@
       (let [[new-state player] (make-move @rooms room-id params)
             winner (logic/game-over? new-state)]
         (swap! rooms assoc-in [room-id :state] new-state)
-        (doseq [channel @channel-hub]
+        (doseq [channel ((@rooms room-id) :channels)]
           (http/send! channel {:status 200 :headers {"Content-Type" "application/edn"} :body (pr-str [new-state player])}))
         {:status  200
          :headers {"Content-Type" "application/edn"}

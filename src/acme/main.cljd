@@ -63,7 +63,7 @@
 (defn server-response [req-method url]
   (-> (req-method url)
       (.then (fn [^http/Response res]
-               (println (.-body res))
+               (println "res" res "\n.-body res: " (.-body res) "\nedn/read-string: " (edn/read-string (.-body res)))
                (edn/read-string (.-body res))))
       (.catchError (fn [e]
                      (println "Мережева помилка для" url ":" e)
@@ -77,7 +77,7 @@
                    (println "opponent made a move!")
                    (swap! state merge new-state)
                    (if (not= player (@state :player)) (swap! state assoc :my-turn true) (swap! state assoc :my-turn nil))
-                   (println @state)
+                   ;; (println @state)
                    ;; РЕКУРСІЯ: Запускаємо слухача знову, бо попереднє з'єднання сервер уже закрив!
                    (listen-for-updates state)))))))
 
@@ -243,13 +243,12 @@
               (.then (fn [server-data]
                        (println "server-data:" server-data)
                        (let [room-map (:room server-data)
-                             room-info (or (get room-map requested-id)
-                                           (get room-map (keyword requested-id)))
-                             server-game-state (:state room-info)]
+                             server-game-state (:state room-map)]
                          (swap! state merge server-game-state)
                          (swap! state assoc :player (:player server-data))
                          (swap! state assoc :room-id requested-id)
                          (listen-for-updates state)
+                         (println "server-game-state" server-game-state)
                          (println "create-state - new: " @state)))))))
       .child (m/Text "create new"))])))
 
