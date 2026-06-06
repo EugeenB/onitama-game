@@ -32,16 +32,15 @@
           :else nil)))
 
 (defn reverse-battlefield [battlefield]
-  (vector (map
-           (partial replace {:player1 :player2 :player2 :player1})
-           (map rseq (rseq battlefield)))))
+  (vector
+   (map rseq (rseq battlefield)))) ;; do not swap the players just mirror the board
 
 (defn possible-moves ([state card position player]
                       (let [[x y] position
                             battlefield (state :field)
                             moves (card card-moves)
                             selected-piece (get-in battlefield [y x])
-                            operator (if (= selected-piece player) + -)
+                            operator (if (= selected-piece :player1) + -) ;; temp-fix - assuming board is never flipped
                             result (map (fn [[dx dy]] [(operator x dx) (operator y dy)]) moves)]
                         (when operator
                           (filter #(and (<= 0 (first %) 4)
