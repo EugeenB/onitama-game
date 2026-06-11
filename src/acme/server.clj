@@ -198,11 +198,12 @@
       (let [[new-state player] (make-move @rooms room-id params)
             winner (logic/game-over? new-state)]
         (swap! rooms assoc-in [room-id :state] new-state)
+        (println winner)
         (doseq [channel ((@rooms room-id) :channels)]
-          (http/send! channel {:status 200 :headers {"Content-Type" "application/edn"} :body (pr-str [new-state player])}))
+          (http/send! channel {:status 200 :headers {"Content-Type" "application/edn"} :body (pr-str [new-state player winner])}))
         {:status  200
          :headers {"Content-Type" "application/edn"}
-         :body    (pr-str [new-state player])})
+         :body    (pr-str [new-state player winner])})
       :else
       {:status  404
        :headers {"Content-Type" "text/html"}

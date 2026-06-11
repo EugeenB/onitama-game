@@ -72,11 +72,12 @@
 (defn listen-for-updates [state]
   (-> (server-response http/get (make-url server-path "subscribe" {:room-id (@state :room-id)}))
       (.then (fn [new-server-game-state]
-               (let [[new-state player] new-server-game-state]
+               (let [[new-state player winner] new-server-game-state]
                  (when new-state
                    (println "opponent made a move!")
                    (swap! state merge new-state)
                    (if (not= player (@state :player)) (swap! state assoc :my-turn true) (swap! state assoc :my-turn nil))
+                   (if winner (swap! state assoc :winner winner) nil)
                    ;; (println @state)
                    ;; РЕКУРСІЯ: Запускаємо слухача знову, бо попереднє з'єднання сервер уже закрив!
                    (listen-for-updates state)))))))
@@ -109,12 +110,13 @@
     (reset-ui state) ;; atom changes
     (-> (server-response http/post url)
         (.then (fn [server-data]
-                 (let [[new-state player] server-data]
+                 (let [[new-state player winner] server-data]
                    (when new-state
-
+                     (println "winner - " winner)
                      ;; merge оновить у нашому атомі :field, :cards, :kings, :player одним махом!
                      (swap! state merge new-state)
                      (if (not= player (@state :player)) (swap! state assoc :my-turn true) (swap! state assoc :my-turn nil))
+                     (if winner (swap! state assoc :winner winner) nil)
                      ;; (println "Держава успішно оновлена з сервера!")
                      )))))
     nil))
@@ -259,10 +261,11 @@
     (f/widget
      :watch [state-value state]
      (m/Scaffold
-      .appBar (m/AppBar .toolbarHeight 100.0
+      .appBar (m/AppBar .toolbarHeight 120.0
                         .title (m/Text (str "Onitama - room " (when (:room-id state-value) (:room-id state-value))
                                             "\nYou are " (when (:player state-value) (name (:player state-value)))
-                                            "\nIt is " (if (or (:my-turn state-value) nil) "" "not") " your turn")))
+                                            "\nIt is " (if (or (:my-turn state-value) nil) "" "not ") "your turn"
+                                            (if (:winner state-value) (str "\n" (name (:winner state-value)) " has won! GG!") ""))))
       .body
       (if (state-value :player)
         (do (println "game")
